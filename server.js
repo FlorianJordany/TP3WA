@@ -4,7 +4,7 @@ var dayjs = require("dayjs");
 require("dayjs/locale/fr");
 require("dotenv").config();
 
-const { students } = require("./Data/Students");
+const { students } = require("./Data/Students.json");
 const { transformDate } = require("./utils");
 
 transformDate(students);
@@ -48,6 +48,7 @@ http
           if (deleteUser) {
             students.splice(deleteUser, 1);
           }
+          fs.writeFileSync("./Data/Students.json", JSON.stringify({'students':students}))
           res.writeHead(301, { Location: `http://127.0.0.1:3000/users` });
           res.end();
         } else {
@@ -59,6 +60,8 @@ http
               name: name,
               birth: dayjs(date).locale("fr").format("dddd D MMMM YYYY"),
             });
+            fs.writeFileSync("./Data/Students.json", JSON.stringify({'students':students}))
+            console.log(students)
           }
           res.writeHead(301, { Location: `http://127.0.0.1:3000` });
           res.end();
